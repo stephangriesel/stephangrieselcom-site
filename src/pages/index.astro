@@ -3,14 +3,43 @@
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+      integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+      crossorigin="anonymous"
+    />
+    <title>stephangriesel.com</title>
+  </head>
+  <body>
+    <section class="grid place-items-center min-h-screen">
+      <h1>stephangriesel.com</h1>
+      <div>
+        <ul class="flex">
+          <li>
+            <a href="https://www.linkedin.com/in/stephangriesel/">
+              <i class="fab fa-linkedin fa-2x"></i>
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/stephangriesel">
+              <i class="fab fa-github fa-2x"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <footer>
+        &copy;
+        <script>
+          new Date().getFullYear() > 2010 &&
+            document.write(" " + new Date().getFullYear());
+        </script>
+      </footer>
+    </section>
+  </body>
 </html>
