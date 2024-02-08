@@ -6,7 +6,7 @@ const SubscribeForm = () => {
   const [isSumbitting, setIsSubmitting] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if(isSumbitting) return;
     setIsSubmitting(true);
@@ -27,6 +27,25 @@ const SubscribeForm = () => {
       return toast.error("Please enter an valid email address", {
         id: subToast,
       })
+    }
+
+    try {
+      const res = await fetch("/api/subscgribe.json", {
+      });
+
+      if (!res.ok) {
+        throw new Error("❌ Error!");
+      }
+    } catch (e) {
+      setIsSubmitting(false);
+      toast.error("Error, please try again!.", {
+        id: subToast,
+      });
+      if (e instanceof Error) {
+        return console.error(e.message);
+      }
+      console.error(e);
+
     }
   };
 
