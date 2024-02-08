@@ -30,12 +30,26 @@ const SubscribeForm = () => {
     }
 
     try {
-      const res = await fetch("/api/subscgribe.json", {
+      const res = await fetch("/api/subscribe.json", {
+        method: "POST",
+        body: JSON.stringify(formInputs),
+        headers: {
+          "Content-type": "application/json",
+        },
       });
 
       if (!res.ok) {
         throw new Error("❌ Error!");
       }
+      
+      const successMessage = await res.json();
+      // console.log("Test success submit", successMessage);
+
+      toast.success(successMessage.message, {
+        id: subToast,
+      });
+      formRef.current?.reset();
+      setIsSubmitting(false);
     } catch (e) {
       setIsSubmitting(false);
       toast.error("Error, please try again!.", {
