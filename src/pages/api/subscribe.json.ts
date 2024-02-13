@@ -1,6 +1,7 @@
 export const prerender = false;
 
 import type { APIRoute } from "astro"
+import validateEmail from "../../lib/validateEmail";
 
 export const POST: APIRoute = async ({ request }) => {
   try {
@@ -8,9 +9,16 @@ export const POST: APIRoute = async ({ request }) => {
     const { email } = body;
     console.log("POST: APIRoute", email);
 
-    if(email){
+    // Check if email exists
+    if(!email){
       throw new Error("Not working");
     }
+
+    // Validate email
+    if(!validateEmail(email as string)){
+      throw new Error("Not working");
+    }
+    
   } catch (error) {
     if (error instanceof Error) {
       console.log(error.message);
