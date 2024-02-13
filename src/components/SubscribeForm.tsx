@@ -16,14 +16,16 @@ const SubscribeForm = () => {
     const formData = new FormData(e.currentTarget);
     const formInputs = Object.fromEntries(formData);
     console.log("Handle Submits", formInputs)
+
+    const email = formInputs.email;
     
-    if(!formInputs?.email){
+    if(!email){
       return toast.error("Please provide an email address", {
         id: subToast,
       })
     }
 
-    if(!validateEmail((formInputs.email as string).trim())){
+    if(!validateEmail((email as string).trim())){
       return toast.error("Please enter an valid email address", {
         id: subToast,
       })
