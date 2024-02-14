@@ -18,6 +18,11 @@ export const POST: APIRoute = async ({ request }) => {
     if(!validateEmail(email as string)){
       throw new Error("Not working");
     }
+
+    // Check if email subscribed
+    // const subRes = await fetch(`https://api.convertkit.com/v3/subscribers?api_secret=${import.meta.env.CONVERT_KIT_SECRET_KEY}&email_address${email}`);
+    // const subData = await subRes.json();
+    // console.log("Check subscriber data", subData);
     
   } catch (error) {
     if (error instanceof Error) {
