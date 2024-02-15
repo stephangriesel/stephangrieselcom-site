@@ -11,12 +11,12 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Check if email exists
     if(!email){
-      throw new Error("Not working");
+      throw new Error("Please provide email 🤨"); // Expected error here ✅
     }
 
-    // Validate email
+    // Check if email is valid
     if(!validateEmail(email as string)){
-      throw new Error("Not working");
+      throw new Error("Email is not valid 😠"); // Expected error here ✅
     }
 
     // Check if email subscribed
@@ -24,17 +24,17 @@ export const POST: APIRoute = async ({ request }) => {
     // const subData = await subRes.json();
     // console.log("Check subscriber data", subData);
     
-  } catch (error) {
-    if (error instanceof Error) {
-      console.log(error.message);
+  } catch (e) {
+    if (e instanceof Error) {
+      console.log(e.message);
       return new Response(null, {
         status: 400,
-        statusText: error.message,
+        statusText: e.message,
       });
     }
   }
   return new Response(null, {
     status: 400,
-    statusText: "Unexpected Error!",
+    statusText: "There is unexpected error ¯\_(ツ)_/¯",
   });
 }
