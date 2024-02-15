@@ -3,12 +3,12 @@ import toast, { Toaster } from "react-hot-toast";
 import validateEmail from "../lib/validateEmail";
 
 const SubscribeForm = () => {
-  const [isSumbitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if(isSumbitting) return;
+    if(isSubmitting) return;
     setIsSubmitting(true);
 
     const subToast = toast.loading("Submitting");
@@ -68,7 +68,7 @@ const SubscribeForm = () => {
   return (<form ref={formRef} onSubmit={handleSubmit}>
     <label htmlFor="email">Enter your email</label>
     <input type="email" name="email" id="email" required/>
-    <button type="submit" disabled={isSumbitting}>Subscribe</button>
+    <button type="submit" disabled={isSubmitting}>Subscribe</button>
     <Toaster />
     </form>
   );
