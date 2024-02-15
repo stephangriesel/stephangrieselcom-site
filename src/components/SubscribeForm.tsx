@@ -14,21 +14,24 @@ const SubscribeForm = () => {
     const subToast = toast.loading("Submitting");
 
     const formData = new FormData(e.currentTarget);
+    console.log("Check form data", formData);
     const formInputs = Object.fromEntries(formData);
     console.log("Handle Submits", formInputs)
 
     const email = formInputs.email;
     
+    // Check if email exists
     if(!email){
-      return toast.error("Please provide an email address", {
+      return toast.error("Please provide an email address ❌", {
         id: subToast,
-      })
+      });
     }
 
+    // Check if email is valid
     if(!validateEmail((email as string).trim())){
-      return toast.error("Please enter an valid email address", {
+      return toast.error("Please provide a valid email address 🤔", {
         id: subToast,
-      })
+      });
     }
 
     try {
@@ -41,11 +44,11 @@ const SubscribeForm = () => {
       });
 
       if (!res.ok) {
-        throw new Error("❌ Error!");
+        throw new Error("❌ Error, yikes, this does not look good!");
       }
       
       const successMessage = await res.json();
-      // console.log("Test success submit", successMessage);
+      console.log("Test success submit", successMessage);
 
       toast.success(successMessage.message, {
         id: subToast,
@@ -54,7 +57,7 @@ const SubscribeForm = () => {
       setIsSubmitting(false);
     } catch (e) {
       setIsSubmitting(false);
-      toast.error("Error, please try again!.", {
+      toast.error("There was a problem subscribing you, sorry, please try again! 😱", {
         id: subToast,
       });
       if (e instanceof Error) {
@@ -67,7 +70,7 @@ const SubscribeForm = () => {
 
   return (<form ref={formRef} onSubmit={handleSubmit}>
     <label htmlFor="email">Enter your email</label>
-    <input type="email" name="email" id="email" required/>
+    <input className="text-black" type="email" name="email" id="email" required/>
     <button type="submit" disabled={isSubmitting}>Subscribe</button>
     <Toaster />
     </form>
