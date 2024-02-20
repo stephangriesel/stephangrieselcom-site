@@ -20,10 +20,64 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     // Check if email subscribed
-    // const subRes = await fetch(`https://api.convertkit.com/v3/subscribers?api_secret=${import.meta.env.CONVERT_KIT_SECRET_KEY}&email_address${email}`);
-    // const subData = await subRes.json();
-    // console.log("Check subscriber data", subData);
-    
+    const subRes = await fetch(`https://api.convertkit.com/v3/subscribers?api_secret=${import.meta.env.CONVERT_KIT_SECRET_KEY}&email_address=${email}`);
+    if (!subRes.ok) {
+      throw new Error("Noooooooo!!! :'(");
+    }
+    const subData = await subRes.json();
+    console.log("Check subscriber data", subData);
+    const isSubscribed = subData.total_subscribers > 0;
+    // const isSubscribed = true; // Set to true to test
+    console.log("Total subscribed", isSubscribed);
+
+    if (isSubscribed) {
+      return new Response(
+        JSON.stringify({
+          message: "Already subscribed! PARTY!!!",
+        }),
+        {
+          status: 200,
+          statusText: "OK",
+        }
+      );
+    }
+
+    // subscribe email
+    // TODO: REVIEW
+    const res = await fetch(
+      `https://api.convertkit.com/v3/forms/${import.meta.env.CONVERT_KIT_SUBSCRIBE_ID}/subscribe`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+        },
+        body: JSON.stringify({
+          api_key: import.meta.env.CONVERT_KIT_API_KEY,
+          email,
+        }),
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error("Subscribing failed");
+    }
+
+    const resText = await res.json();
+
+    if (resText.error) {
+      throw new Error(resText.error.message);
+    }
+
+    return new Response(
+      JSON.stringify({
+        message:
+          "Woohooo! Please check email to confirm subscription.",
+      }),
+      {
+        status: 200,
+        statusText: "OK",
+      }
+    );
   } catch (e) {
     if (e instanceof Error) {
       console.log(e.message);
