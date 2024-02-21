@@ -17,7 +17,7 @@ const SubscribeForm = () => {
     console.log("Check form data", formData);
     const formInputs = Object.fromEntries(formData);
     console.log("Handle Submits", formInputs)
-
+    
     const email = formInputs.email;
     
     // Check if email exists
