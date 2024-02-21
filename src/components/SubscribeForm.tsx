@@ -22,14 +22,14 @@ const SubscribeForm = () => {
     
     // Check if email exists
     if(!email){
-      return toast.error("Please provide an email address ❌", {
+      return toast.error("Please provide an email address", {
         id: subToast,
       });
     }
 
     // Check if email is valid
     if(!validateEmail((email as string).trim())){
-      return toast.error("Please provide a valid email address 🤔", {
+      return toast.error("Please provide a valid email address", {
         id: subToast,
       });
     }
@@ -44,7 +44,7 @@ const SubscribeForm = () => {
       });
 
       if (!res.ok) {
-        throw new Error("❌ Error, yikes, this does not look good!");
+        throw new Error("Error, yikes, this does not look good!");
       }
       
       const successMessage = await res.json();
@@ -57,7 +57,7 @@ const SubscribeForm = () => {
       setIsSubmitting(false);
     } catch (e) {
       setIsSubmitting(false);
-      toast.error("There was a problem subscribing you, sorry, please try again! 😱", {
+      toast.error("There was a problem subscribing you, sorry, please try again!", {
         id: subToast,
       });
       if (e instanceof Error) {
