@@ -68,10 +68,10 @@ const SubscribeForm = () => {
     }
   };
 
-  return (<form ref={formRef} onSubmit={handleSubmit}>
+  return (<form className="flex flex-col" ref={formRef} onSubmit={handleSubmit}>
     <label htmlFor="email">Enter your email</label>
     <input className="text-black" type="email" name="email" id="email" required/>
-    <button type="submit" disabled={isSubmitting}>Subscribe</button>
+    <button className="p-2 mt-2 bg-white text-black" type="submit" disabled={isSubmitting}>Subscribe</button>
     <Toaster />
     </form>
   );
