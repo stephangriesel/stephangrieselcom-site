@@ -19,3 +19,6 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+
+#Google Sheet Ignore
+src/pages/data/*
