@@ -1,6 +1,7 @@
 # Google Sheet CMS
 
-##Documentation:
+## Documentation:
+
 https://developers.google.com/apps-script/guides/web
 
 ## How to edit script:
