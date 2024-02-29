@@ -1,5 +1,7 @@
 # stephangriesel.com
 
+## CMS
+
 ### Documentation link:
 
 https://developers.google.com/apps-script/guides/web
@@ -31,18 +33,20 @@ GitHub,fab fa-github fa-2x,https://www.yourlink.com
 function doGet() {
   const doc = SpreadsheetApp.getActiveSpreadsheet();
   const sheet = doc.getSheetByName("Social");
-  // range: starts at column and row 1, check over 6 rows, and check 3 columns
-  const values = sheet.getRange(1, 1, 6, 3).getDisplayValues();
-  console.log("check values", values);
+  // range: starts at column and row 1, check over 6 rows, and check 4 columns
+  const values = sheet.getRange(1, 1, 6, 4).getDisplayValues();
+  // console.log("check values",values);
   const result = values.map((s) => ({
     name: s[0],
     icon: s[1],
     link: s[2],
+    status: s[3],
   }));
   console.log("check result", result);
   return ContentService.createTextOutput(
     JSON.stringify({ data: result })
   ).setMimeType(ContentService.MimeType.JSON);
 }
+
 
 ```
