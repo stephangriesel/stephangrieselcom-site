@@ -1,15 +1,17 @@
 ---
+import Hero from "../components/Hero.astro";
 import SocialLinks from "../components/SocialLinks.astro";
 import Title from "../components/Title.astro";
 
-// FAKE DATA
+// FAKE DATA FOR TESTING
 // const data = [
-//   { name: "Facebook", icon: "", link: "" },
-//   { name: "Instagram", icon: "", link: "" },
-//   { name: "X", icon: "", link: "" },
-//   { name: "LinkedIn", icon: "fab fa-linkedin fa-2x", link: "" },
-//   { name: "BeReal", icon: "", link: "" },
-//   { name: "GitHub", icon: "fab fa-github fa-2x", link: "" },
+//   { name: "Hero", icon: "", link: "", status: "enabled" },
+//   { name: "Facebook", icon: "", link: "", status: "disabled" },
+//   { name: "Instagram", icon: "", link: "", status: "disabled" },
+//   { name: "X", icon: "", link: "", status: "disabled" },
+//   { name: "LinkedIn", icon: "fab fa-linkedin fa-2x", link: "", status: "disabled" },
+//   { name: "BeReal", icon: "", link: "", status: "disabled" },
+//   { name: "GitHub", icon: "fab fa-github fa-2x", link: "", status: "disabled" },
 // ];
 
 const res = await fetch(
@@ -37,7 +39,10 @@ const { data } = await res.json();
     <section class="grid place-items-center min-h-screen">
       <h1>stephangriesel.com</h1>
       <div>
-        <div>
+        {data.map((i) => <Hero data={i} />)}
+      </div>
+      <div>
+        <div class="flex">
           <Title />
           {data.map((i) => <SocialLinks data={i} />)}
         </div>
