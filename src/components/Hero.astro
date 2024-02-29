@@ -1,0 +1,17 @@
+---
+type Props = {
+  data: {
+    name: string;
+    icon: string;
+    link: string;
+    status: string;
+  };
+};
+
+const { data } = Astro.props;
+console.log(data);
+---
+
+<div>
+  <img src={data.link} alt="hero" />
+</div>
