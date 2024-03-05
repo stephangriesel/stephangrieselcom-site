@@ -9,9 +9,10 @@ type Props = {
 };
 
 const { data } = Astro.props;
-console.log(data);
+console.log("check data hero", data);
+console.log("check data status", data.status);
 ---
 
 <div>
-  <img src={data.link} alt="hero" />
+  {data.status === "enabled" && <img src={data.link} alt="hero" />}
 </div>
