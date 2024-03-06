@@ -1,0 +1,18 @@
+---
+type Props = {
+  data: {
+    name: string;
+    icon: string;
+    link: string;
+    status: string;
+  };
+};
+
+const { data } = Astro.props;
+console.log("check data hero", data);
+console.log("check data status", data.name);
+---
+
+<div>
+  {data && data.status === "enabled" && <h1>{data.name}</h1>}
+</div>
