@@ -15,16 +15,19 @@ https://developers.google.com/apps-script/guides/web
 ### How to remove icons:
 
 1. Go to sheet file
-2. Clear row
+2. Clear cell
 
 ### Example sheet:
+```
+The status enabled can be cleared and only applies if header hero needs to be displayed
+```
 
 ```
-Facebook,fab fa-facebook fa-2x,https://www.yourlink.com
-Instagram,fab fa-instagram fa-2x,https://www.yourlink.com
-X,fa-brands fa-x-twitter fa-2x,https://www.yourlink.com
-LinkedIn,fab fa-linkedin fa-2x,https://www.yourlink.com
-GitHub,fab fa-github fa-2x,https://www.yourlink.com
+Facebook,fab fa-facebook fa-2x,https://www.yourlink.com, enabled
+Instagram,fab fa-instagram fa-2x,https://www.yourlink.com, enabled
+X,fa-brands fa-x-twitter fa-2x,https://www.yourlink.com, enabled
+LinkedIn,fab fa-linkedin fa-2x,https://www.yourlink.com, enabled
+GitHub,fab fa-github fa-2x,https://www.yourlink.com, enabled
 ```
 
 ### Apps Script example:
@@ -42,11 +45,7 @@ function doGet() {
     link: s[2],
     status: s[3],
   }));
-  console.log("check result", result);
-  return ContentService.createTextOutput(
-    JSON.stringify({ data: result })
-  ).setMimeType(ContentService.MimeType.JSON);
+  console.log("check result",result);
+  return ContentService.createTextOutput(JSON.stringify({data:result})).setMimeType(ContentService.MimeType.JSON);
 }
-
-
 ```
