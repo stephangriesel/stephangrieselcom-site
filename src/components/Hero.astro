@@ -14,5 +14,13 @@ console.log("check data status", data.status);
 ---
 
 <div>
-  {data.status === "enabled" && <img src={data.link} alt="hero" />}
+  {
+    data.status === "enabled" && (
+      <img
+        src={data.link}
+        class="object-cover object-center rounded-full h-128 border-4"
+        alt="hero"
+      />
+    )
+  }
 </div>
