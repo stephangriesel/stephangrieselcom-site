@@ -35,9 +35,11 @@ const { data } = await res.json();
     />
     <title>stephangriesel.com</title>
   </head>
-  <body class="grid place-items-center min-h-screen bg-black text-white">
+  <body
+    class="grid place-items-center min-h-screen bg-black text-white h-72 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-slate-600 via-black-600 to-black-600"
+  >
     <section class="grid place-items-center min-h-screen">
-      <h1>{data.map((i) => <Title data={i} />)}</h1>
+      <h1 class="text-2xl">{data.map((i) => <Title data={i} />)}</h1>
       <div>
         {data.map((i) => <Hero data={i} />)}
       </div>
@@ -46,12 +48,15 @@ const { data } = await res.json();
           {data.map((i) => <SocialLinks data={i} />)}
         </div>
       </div>
-      <footer>
-        &copy;
-        <script>
-          new Date().getFullYear() > 2010 &&
-            document.write(" " + new Date().getFullYear());
-        </script>
+      <footer class="flex text-sm">
+        <span class="ml-1 mr-1">{data.map((i) => <Title data={i} />)}</span>
+        <span class="ml-1 mr-1">&copy;</span>
+        <span class="ml-1 mr-1">
+          <script is:inline>
+            new Date().getFullYear() > 2010 &&
+              document.write(" " + new Date().getFullYear());
+          </script></span
+        >
       </footer>
     </section>
   </body>
