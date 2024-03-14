@@ -49,3 +49,8 @@ function doGet() {
   return ContentService.createTextOutput(JSON.stringify({data:result})).setMimeType(ContentService.MimeType.JSON);
 }
 ```
+
+<details>
+  <summary>Change Log</summary>
+  14/03 - Add changelog
+</details>
