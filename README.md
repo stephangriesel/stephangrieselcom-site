@@ -53,4 +53,5 @@ function doGet() {
 <details>
   <summary>Change Log</summary>
   14/03 - Add changelog
+  19/03 - DB test in /db, title update main page
 </details>
