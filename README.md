@@ -18,6 +18,7 @@ https://developers.google.com/apps-script/guides/web
 2. Clear cell
 
 ### Example sheet:
+
 ```
 The status enabled can be cleared and only applies if header hero needs to be displayed
 ```
@@ -52,6 +53,7 @@ function doGet() {
 
 <details>
   <summary>Change Log</summary>
-  14/03 - Add changelog
-  19/03 - DB test in /db, title update main page
+  14/03/2024 - Add changelog
+  19/03/2024 - DB test in /db, title update main page
+  03/04/2024 - Dynamically render page title
 </details>
