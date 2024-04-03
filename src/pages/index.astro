@@ -18,6 +18,10 @@ const res = await fetch(
   "https://script.google.com/macros/s/AKfycbw_3lr_W11sLuHrRhCaRo_iVMZDQNceQTINp65TSi1UuGADCkPyNnlzdWUzQXkVzywEEA/exec"
 );
 const { data } = await res.json();
+console.log("check data index", data);
+console.log("check data index name", data[0].name);
+
+const pageTitle = data[0].name;
 ---
 
 <html lang="en">
@@ -33,7 +37,7 @@ const { data } = await res.json();
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <title>stephangriesel.com</title>
+    <title>{pageTitle}</title>
   </head>
   <body
     class="grid place-items-center min-h-screen bg-black text-white h-72 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-slate-600 via-black-600 to-black-600"
