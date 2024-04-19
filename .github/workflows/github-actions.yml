@@ -1,6 +1,11 @@
 name: GitHub Action
 run-name: ${{ github.actor }} is firing off GitHub Action 🚀
-on: [push]
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: "Update?"
+        default: "Yes please"
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
