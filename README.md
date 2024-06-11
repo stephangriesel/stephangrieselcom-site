@@ -1,7 +1,5 @@
 # stephangriesel.com
 
-## CMS
-
 ### Documentation link:
 
 https://developers.google.com/apps-script/guides/web
