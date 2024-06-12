@@ -7,7 +7,7 @@ https://developers.google.com/apps-script/guides/web
 ### How to edit script:
 
 1. Go to sheet file
-2. Extensions
+2. Click on "Extensions" in file menu
 3. App Script
 
 ### How to remove icons:
