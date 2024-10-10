@@ -51,7 +51,7 @@ function doGet() {
 
 <details>
   <summary>Change Log</summary>
-  10/10/2024 - Remove CMS, test backend<br/>
+  10/10/2024 - Remove CMS<br/>
   08/10/2024 - Add cms<br/>
   14/03/2024 - Add changelog<br/>
   19/03/2024 - DB test in /db, title update main page<br/>
