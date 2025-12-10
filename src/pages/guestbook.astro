@@ -62,7 +62,7 @@ const pageTitle = "Sign My Guestbook";
             referrerpolicy="no-referrer"
         />
         <title>{pageTitle}</title>
-        <style>
+        <style is:global>
             body {
                 font-family: Verdana, Geneva, sans-serif;
                 background-color: #000000; /* Black */
@@ -335,6 +335,8 @@ const pageTitle = "Sign My Guestbook";
                             );
 
                             const formData = new FormData(this);
+                            // Ensure form-name is included for Netlify
+                            formData.append("form-name", "guestbook");
 
                             fetch("/", {
                                 method: "POST",
