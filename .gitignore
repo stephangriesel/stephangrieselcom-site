@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 #Google Sheet Ignore
 src/pages/data/*
+
+# Netlify
+.netlify/
