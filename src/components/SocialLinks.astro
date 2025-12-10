@@ -12,9 +12,17 @@ const { data } = Astro.props;
 ---
 
 <ul>
-  <li class="p-1">
-    <a href={data.link}>
-      <i class={data.icon}></i>
+  <li style="margin-bottom: 5px; list-style-type: square;">
+    <a href={data.link} style="color: #00ffff; text-decoration: underline;">
+      {data.icon && <i class={data.icon} style="margin-right: 5px;" />}
+      {data.name}
     </a>
+    {
+      data.name === "Stephan Griesel" && (
+        <span class="blink" style="font-size: 10px;">
+          NEW!
+        </span>
+      )
+    }
   </li>
 </ul>

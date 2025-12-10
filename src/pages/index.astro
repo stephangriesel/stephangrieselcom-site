@@ -4,24 +4,49 @@ import SocialLinks from "../components/SocialLinks.astro";
 import Title from "../components/Title.astro";
 
 // FAKE DATA FOR TESTING
-// const data = [
-//   { name: "Hero", icon: "", link: "", status: "enabled" },
-//   { name: "Facebook", icon: "", link: "", status: "disabled" },
-//   { name: "Instagram", icon: "", link: "", status: "disabled" },
-//   { name: "X", icon: "", link: "", status: "disabled" },
-//   { name: "LinkedIn", icon: "fab fa-linkedin fa-2x", link: "", status: "disabled" },
-//   { name: "BeReal", icon: "", link: "", status: "disabled" },
-//   { name: "GitHub", icon: "fab fa-github fa-2x", link: "", status: "disabled" },
-// ];
+// HERO DATA
+const heroData = {
+  name: "Stephan Griesel",
+  icon: "",
+  link: "",
+  status: "enabled",
+};
 
-const res = await fetch(
-  "https://script.google.com/macros/s/AKfycbw_3lr_W11sLuHrRhCaRo_iVMZDQNceQTINp65TSi1UuGADCkPyNnlzdWUzQXkVzywEEA/exec"
-);
-const { data } = await res.json();
-console.log("check data index", data);
-console.log("check data index name", data[0].name);
+// SOCIAL DATA
+const data = [
+  {
+    name: "Facebook",
+    icon: "fab fa-facebook",
+    link: "https://facebook.com/stephan.griesel",
+    status: "disabled",
+  },
+  {
+    name: "Instagram",
+    icon: "fab fa-instagram",
+    link: "https://www.instagram.com/stephangriesel",
+    status: "disabled",
+  },
+  {
+    name: "LinkedIn",
+    icon: "fab fa-linkedin fa-2x",
+    link: "",
+    status: "disabled",
+  },
+  {
+    name: "BeReal",
+    icon: "fas fa-camera",
+    link: "https://bere.al/stephangriesel",
+    status: "disabled",
+  },
+  {
+    name: "GitHub",
+    icon: "fab fa-github fa-2x",
+    link: "https://github.com/stephangriesel",
+    status: "disabled",
+  },
+];
 
-const pageTitle = data[0].name;
+const pageTitle = heroData.name;
 ---
 
 <html lang="en">
@@ -38,34 +63,255 @@ const pageTitle = data[0].name;
       referrerpolicy="no-referrer"
     />
     <title>{pageTitle}</title>
+    <style>
+      body {
+        font-family: Verdana, Geneva, sans-serif;
+        background-color: #000000; /* Black */
+        background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.15'/%3E%3C/svg%3E");
+        margin: 0;
+        padding: 20px;
+        color: #ffffff;
+      }
+      .page-container {
+        width: 900px;
+        margin: 0 auto;
+        background-color: #1a1a1a;
+        border: 1px solid #808080;
+        box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+        display: flex;
+      }
+      .sidebar {
+        width: 220px;
+        background-color: #202020; /* Dark Gray */
+        border-right: 2px solid #808080;
+        padding: 15px;
+        text-align: center;
+        flex-shrink: 0;
+      }
+      .main-content {
+        flex-grow: 1;
+        padding: 20px;
+        background-color: #000000;
+        background-image: none;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: "Courier New", Courier, monospace;
+        color: #00ff00; /* Neon Green */
+        border-bottom: 1px solid #00ff00;
+        padding-bottom: 5px;
+      }
+      h1 {
+        font-size: 24px;
+        text-shadow: 0 0 5px #00ff00;
+      }
+      h2 {
+        font-size: 18px;
+        margin-top: 20px;
+      }
+
+      a {
+        color: #00ffff; /* Cyan */
+        text-decoration: underline;
+      }
+      a:visited {
+        color: #ff00ff; /* Magenta */
+      }
+      a:hover {
+        color: #ffffff;
+        background-color: #0000ff;
+      }
+
+      .nav-header {
+        font-weight: bold;
+        margin-top: 20px;
+        margin-bottom: 5px;
+        color: #ffff00; /* Yellow */
+        text-align: left;
+        padding-left: 10px;
+        font-family: "Courier New", Courier, monospace;
+      }
+      .nav-list {
+        list-style-type: square;
+        text-align: left;
+        padding-left: 25px;
+        margin: 0;
+      }
+      .nav-list li {
+        margin-bottom: 5px;
+      }
+
+      .updates-table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #00ff00;
+        font-size: 12px;
+        margin-bottom: 20px;
+        color: #ffffff;
+      }
+      .updates-table th {
+        background-color: #003300;
+        border: 1px solid #00ff00;
+        padding: 5px;
+        text-align: left;
+        color: #00ff00;
+      }
+      .updates-table td {
+        border: 1px solid #00ff00;
+        padding: 5px;
+        vertical-align: top;
+      }
+
+      .marquee-box {
+        background-color: #000000;
+        color: #00ff00;
+        border: 1px solid #00ff00;
+        padding: 2px;
+        margin-bottom: 15px;
+        font-family: "Courier New", monospace;
+      }
+
+      .webring-widget {
+        margin-top: 30px;
+        border: 1px solid #00ff00;
+        background-color: #000000;
+        padding: 5px;
+        font-size: 10px;
+        color: #00ff00;
+      }
+
+      .blink {
+        animation: blinker 1s linear infinite;
+        color: #00ff00;
+      }
+      @keyframes blinker {
+        50% {
+          opacity: 0;
+        }
+      }
+    </style>
   </head>
-  <body
-    class="grid place-items-center min-h-screen bg-black text-white h-72 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-slate-600 via-black-600 to-black-600"
-  >
-    <section class="grid place-items-center min-h-screen">
-      <h1 class="text-2xl">
-        {data.map((i: (typeof data)[0]) => <Title data={i} />)}
-      </h1>
-      <div>
-        {data.map((i: (typeof data)[0]) => <Hero data={i} />)}
-      </div>
-      <div>
-        <div class="flex">
+  <body>
+    <div class="page-container">
+      <!-- SIDEBAR -->
+      <div class="sidebar">
+        <div class="mb-4">
+          <Hero data={heroData} />
+        </div>
+
+        <div class="nav-header">Navigation</div>
+        <ul class="nav-list">
+          <li><a href="#">Home</a></li>
+          <!-- <li><a href="#">About Me</a></li> -->
+          <!-- <li><a href="#">My Photos</a></li> -->
+          <!-- <li><a href="#">Links</a></li> -->
+          <li><a href="/guestbook">Guestbook</a></li>
+          <li><a href="mailto:hello@stephangriesel.com">Email Me</a></li>
+        </ul>
+
+        <div class="nav-header">Connect</div>
+        <div class="text-left pl-2">
           {data.map((i: (typeof data)[0]) => <SocialLinks data={i} />)}
         </div>
+
+        <div class="webring-widget">
+          <b>Visitor Counter</b><br />
+          <div
+            style="border: 2px inset #808080; background: black; color: red; font-family: 'Courier New', monospace; font-size: 14px; margin-top: 5px; letter-spacing: 3px; padding: 2px;"
+          >
+            082638
+          </div>
+        </div>
+
+        <br />
+        <img
+          src="https://web.archive.org/web/20091027073724/http://geocities.com/clipart/pbi/c.gif"
+          alt="construction"
+        />
       </div>
-      <footer class="flex text-sm">
-        <span class="ml-1 mr-1"
-          >{data.map((i: (typeof data)[0]) => <Title data={i} />)}</span
-        >
-        <span class="ml-1 mr-1">&copy;</span>
-        <span class="ml-1 mr-1">
-          <script is:inline>
-            new Date().getFullYear() > 2010 &&
-              document.write(" " + new Date().getFullYear());
-          </script></span
-        >
-      </footer>
-    </section>
+
+      <!-- MAIN CONTENT -->
+      <div class="main-content">
+        <div class="marquee-box">
+          <marquee
+            >*** WELCOME TO STEPHAN GRIESEL'S HOMEPAGE *** UPDATED DEC 10, 2025
+            *** SIGN MY GUESTBOOK! ***</marquee
+          >
+        </div>
+
+        <h1>Welcome to my World!</h1>
+        <p>
+          Hi! I'm Stephan. This is my personal corner of the World Wide Web.
+          Here you will find everything about me, my hobbies, and my life.
+          Thanks for stopping by!
+        </p>
+
+        <h2>What's New</h2>
+        <table class="updates-table">
+          <tr>
+            <th style="width: 80px;">Date</th>
+            <th>Update</th>
+          </tr>
+          <tr>
+            <td>Dec 10</td>
+            <td
+              >Redesigned the site with a cool new layout! Added "About Me"
+              section.</td
+            >
+          </tr>
+          <tr>
+            <td>Dec 08</td>
+            <td>Uploaded new photos to the gallery.</td>
+          </tr>
+          <tr>
+            <td>Nov 25</td>
+            <td>Fixed the guestbook link. Please sign it!</td>
+          </tr>
+        </table>
+
+        <h2>About Me</h2>
+        <p>
+          I am a web enthusiast living in the digital age. I like playing
+          guitar, going to gigs and surfing the net. My favorite browser is
+          Netscape Navigator.
+        </p>
+
+        <h2>My Interests</h2>
+        <ul>
+          <li><b>Music</b>: Rock, Metal, Blues, Jazz</li>
+          <li><b>Movies</b>: Ace Ventura, Wayne's World, The Goonies</li>
+          <li><b>Bands</b>: Megadeth, Slayer, ACDC</li>
+          <li><b>Computer Programming</b>: HTML, CSS, JavaScript</li>
+        </ul>
+
+        <hr style="border: 0; border-top: 1px solid #808080; margin: 20px 0;" />
+
+        <center>
+          <div class="flex justify-center gap-2 mb-4">
+            <div
+              style="width: 88px; height: 31px; background: #000080; color: white; border: 1px solid white; display: flex; align-items: center; justify-content: center; font-size: 10px;"
+            >
+              NETSCAPE<br />NOW!
+            </div>
+            <div
+              style="width: 88px; height: 31px; background: #000; color: white; border: 1px solid white; display: flex; align-items: center; justify-content: center; font-size: 10px;"
+            >
+              IE 5.0
+            </div>
+            <div
+              style="width: 88px; height: 31px; background: #808080; color: black; border: 1px solid white; display: flex; align-items: center; justify-content: center; font-size: 10px;"
+            >
+              NOTEPAD
+            </div>
+          </div>
+
+          <div style="font-size: 10px; color: #666;">
+            Last Updated: {new Date().toLocaleDateString()}<br />
+            &copy; 1999-2025 Stephan Griesel. All rights reserved.
+          </div>
+        </center>
+      </div>
+    </div>
   </body>
 </html>

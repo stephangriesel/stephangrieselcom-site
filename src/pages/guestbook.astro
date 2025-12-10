@@ -1,0 +1,383 @@
+---
+import Hero from "../components/Hero.astro";
+import SocialLinks from "../components/SocialLinks.astro";
+import Title from "../components/Title.astro";
+
+// HERO DATA
+const heroData = {
+    name: "Stephan Griesel",
+    icon: "",
+    link: "",
+    status: "enabled",
+};
+
+// SOCIAL DATA
+const data = [
+    {
+        name: "Facebook",
+        icon: "fab fa-facebook",
+        link: "https://facebook.com/stephan.griesel",
+        status: "disabled",
+    },
+    {
+        name: "Instagram",
+        icon: "fab fa-instagram",
+        link: "https://www.instagram.com/stephangriesel",
+        status: "disabled",
+    },
+    { name: "X", icon: "", link: "", status: "disabled" },
+    {
+        name: "LinkedIn",
+        icon: "fab fa-linkedin fa-2x",
+        link: "",
+        status: "disabled",
+    },
+    {
+        name: "BeReal",
+        icon: "fas fa-camera",
+        link: "https://bere.al/stephangriesel",
+        status: "disabled",
+    },
+    {
+        name: "GitHub",
+        icon: "fab fa-github fa-2x",
+        link: "https://github.com/stephangriesel",
+        status: "disabled",
+    },
+];
+
+const pageTitle = "Sign My Guestbook";
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+            integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <title>{pageTitle}</title>
+        <style>
+            body {
+                font-family: Verdana, Geneva, sans-serif;
+                background-color: #000000; /* Black */
+                background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.15'/%3E%3C/svg%3E");
+                margin: 0;
+                padding: 20px;
+                color: #ffffff;
+            }
+            .page-container {
+                width: 900px;
+                margin: 0 auto;
+                background-color: #1a1a1a;
+                border: 1px solid #808080;
+                box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+                display: flex;
+            }
+            .sidebar {
+                width: 220px;
+                background-color: #202020; /* Dark Gray */
+                border-right: 2px solid #808080;
+                padding: 15px;
+                text-align: center;
+                flex-shrink: 0;
+            }
+            .main-content {
+                flex-grow: 1;
+                padding: 20px;
+                background-color: #000000;
+                background-image: none;
+            }
+            h1,
+            h2,
+            h3 {
+                font-family: "Courier New", Courier, monospace;
+                color: #00ff00; /* Neon Green */
+                border-bottom: 1px solid #00ff00;
+                padding-bottom: 5px;
+            }
+            h1 {
+                font-size: 24px;
+                text-shadow: 0 0 5px #00ff00;
+            }
+            h2 {
+                font-size: 18px;
+                margin-top: 20px;
+            }
+
+            a {
+                color: #00ffff; /* Cyan */
+                text-decoration: underline;
+            }
+            a:visited {
+                color: #ff00ff; /* Magenta */
+            }
+            a:hover {
+                color: #ffffff;
+                background-color: #0000ff;
+            }
+
+            .nav-header {
+                font-weight: bold;
+                margin-top: 20px;
+                margin-bottom: 5px;
+                color: #ffff00; /* Yellow */
+                text-align: left;
+                padding-left: 10px;
+                font-family: "Courier New", Courier, monospace;
+            }
+            .nav-list {
+                list-style-type: square;
+                text-align: left;
+                padding-left: 25px;
+                margin: 0;
+            }
+            .nav-list li {
+                margin-bottom: 5px;
+            }
+
+            .webring-widget {
+                margin-top: 30px;
+                border: 1px solid #00ff00;
+                background-color: #000000;
+                padding: 5px;
+                font-size: 10px;
+                color: #00ff00;
+            }
+
+            .blink {
+                animation: blinker 1s linear infinite;
+                color: #00ff00;
+            }
+            @keyframes blinker {
+                50% {
+                    opacity: 0;
+                }
+            }
+
+            /* Guestbook Specific Styles */
+            .guestbook-form {
+                border: 1px solid #00ff00;
+                padding: 15px;
+                background-color: #111;
+                margin-bottom: 30px;
+            }
+            .form-group {
+                margin-bottom: 15px;
+            }
+            label {
+                display: block;
+                margin-bottom: 5px;
+                color: #00ff00;
+                font-family: "Courier New", Courier, monospace;
+            }
+            input,
+            textarea {
+                width: 100%;
+                padding: 5px;
+                background-color: #000;
+                border: 1px solid #808080;
+                color: #fff;
+                font-family: Verdana, sans-serif;
+            }
+            button {
+                background-color: #000;
+                color: #00ff00;
+                border: 1px solid #00ff00;
+                padding: 5px 15px;
+                cursor: pointer;
+                font-family: "Courier New", Courier, monospace;
+                font-weight: bold;
+            }
+            button:hover {
+                background-color: #00ff00;
+                color: #000;
+            }
+            .entry {
+                border: 1px solid #808080;
+                padding: 10px;
+                margin-bottom: 15px;
+                background-color: #111;
+            }
+            .entry-header {
+                border-bottom: 1px solid #333;
+                padding-bottom: 5px;
+                margin-bottom: 5px;
+                font-size: 12px;
+                color: #ffff00;
+            }
+            .entry-body {
+                font-family: "Courier New", Courier, monospace;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="page-container">
+            <!-- SIDEBAR -->
+            <div class="sidebar">
+                <div class="mb-4">
+                    <Hero data={heroData} />
+                </div>
+
+                <div class="nav-header">Navigation</div>
+                <ul class="nav-list">
+                    <li><a href="/">Home</a></li>
+                    <!-- <li><a href="#">About Me</a></li> -->
+                    <!-- <li><a href="#">My Photos</a></li> -->
+                    <!-- <li><a href="#">Links</a></li> -->
+                    <li><a href="/guestbook">Guestbook</a></li>
+                    <li>
+                        <a href="mailto:hello@stephangriesel.com">Email Me</a>
+                    </li>
+                </ul>
+
+                <div class="nav-header">Connect</div>
+                <div class="text-left pl-2">
+                    {
+                        data.map((i: (typeof data)[0]) => (
+                            <SocialLinks data={i} />
+                        ))
+                    }
+                </div>
+
+                <div class="webring-widget">
+                    <b>Retro Webring</b><br />
+                    [ <a href="#">Prev</a> | <a href="#">Next</a> ]<br />
+                    [ <a href="#">List Sites</a> ]
+                </div>
+
+                <br />
+                <img
+                    src="https://web.archive.org/web/20091027073724/http://geocities.com/clipart/pbi/c.gif"
+                    alt="construction"
+                />
+            </div>
+
+            <!-- MAIN CONTENT -->
+            <div class="main-content">
+                <h1>Sign My Guestbook</h1>
+                <p>Please leave a message! I love hearing from visitors.</p>
+
+                <div class="guestbook-form">
+                    <form
+                        name="guestbook"
+                        method="POST"
+                        data-netlify="true"
+                        id="gbForm"
+                    >
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type="text" id="name" name="name" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="email"
+                                >Email (will not be published):</label
+                            >
+                            <input type="email" id="email" name="email" />
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message:</label>
+                            <textarea
+                                id="message"
+                                name="message"
+                                rows="4"
+                                required></textarea>
+                        </div>
+                        <button type="submit">Sign Guestbook</button>
+                    </form>
+                </div>
+
+                <h2>Previous Signatures</h2>
+                <div id="entries">
+                    <div class="entry">
+                        <div class="entry-header">
+                            <b>WebMaster99</b> wrote on Dec 01, 2025:
+                        </div>
+                        <div class="entry-body">
+                            Cool site! Love the dark mode. Reminds me of the
+                            good old days.
+                        </div>
+                    </div>
+                    <div class="entry">
+                        <div class="entry-header">
+                            <b>Guest</b> wrote on Nov 28, 2025:
+                        </div>
+                        <div class="entry-body">
+                            Under construction? Can't wait to see more!
+                        </div>
+                    </div>
+                </div>
+
+                <script is:inline>
+                    document
+                        .getElementById("gbForm")
+                        .addEventListener("submit", function (e) {
+                            e.preventDefault();
+
+                            const name = document.getElementById("name").value;
+                            const message =
+                                document.getElementById("message").value;
+                            const date = new Date().toLocaleDateString(
+                                "en-US",
+                                {
+                                    month: "short",
+                                    day: "2-digit",
+                                    year: "numeric",
+                                },
+                            );
+
+                            const formData = new FormData(this);
+
+                            fetch("/", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type":
+                                        "application/x-www-form-urlencoded",
+                                },
+                                body: new URLSearchParams(formData).toString(),
+                            })
+                                .then(() => {
+                                    const entryHtml = `
+                              <div class="entry" style="border: 2px solid #00ff00;">
+                                <div class="entry-header">
+                                  <b>${name}</b> wrote on ${date}:
+                                </div>
+                                <div class="entry-body">
+                                  ${message}
+                                </div>
+                              </div>
+                            `;
+
+                                    const entriesDiv =
+                                        document.getElementById("entries");
+                                    entriesDiv.innerHTML =
+                                        entryHtml + entriesDiv.innerHTML;
+
+                                    alert("Thanks for signing my guestbook!");
+                                    this.reset();
+                                })
+                                .catch((error) =>
+                                    alert(
+                                        "Oops! Something went wrong: " + error,
+                                    ),
+                                );
+                        });
+                </script>
+
+                <center>
+                    <div
+                        style="font-size: 10px; color: #666; margin-top: 50px;"
+                    >
+                        &copy; 1999-2025 Stephan Griesel. All rights reserved.
+                    </div>
+                </center>
+            </div>
+        </div>
+    </body>
+</html>
