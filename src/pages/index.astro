@@ -2,6 +2,7 @@
 import Hero from "../components/Hero.astro";
 import SocialLinks from "../components/SocialLinks.astro";
 import Title from "../components/Title.astro";
+import VisitorCounter from "../components/VisitorCounter.astro";
 
 // FAKE DATA FOR TESTING
 // HERO DATA
@@ -215,14 +216,7 @@ const pageTitle = heroData.name;
           {data.map((i: (typeof data)[0]) => <SocialLinks data={i} />)}
         </div>
 
-        <div class="webring-widget">
-          <b>Visitor Counter</b><br />
-          <div
-            style="border: 2px inset #808080; background: black; color: red; font-family: 'Courier New', monospace; font-size: 14px; margin-top: 5px; letter-spacing: 3px; padding: 2px;"
-          >
-            082638
-          </div>
-        </div>
+        <VisitorCounter />
 
         <br />
         <img

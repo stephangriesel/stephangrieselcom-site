@@ -1,0 +1,51 @@
+---
+// VisitorCounter.astro
+---
+
+<div class="visitor-counter">
+    <b>Visitor Counter</b><br />
+    <div class="counter-display" id="counter">------</div>
+    <div style="font-size: 8px; margin-top: 5px;">since 10/10/2025</div>
+</div>
+
+<script>
+    const counterElement = document.getElementById("counter");
+    if (counterElement) {
+        // Using stephangriesel.com as the namespace and 'visits' as the key
+        // The 'up' endpoint increments the counter
+        fetch("https://api.counterapi.dev/v1/stephangriesel.com/visits/up")
+            .then((response) => response.json())
+            .then((data) => {
+                // Pad the number with leading zeros to 6 digits
+                const count = data.count.toString().padStart(6, "0");
+                counterElement.innerText = count;
+            })
+            .catch((error) => {
+                console.error("Error fetching visit count:", error);
+                counterElement.innerText = "ERROR";
+            });
+    }
+</script>
+
+<style>
+    .visitor-counter {
+        margin-top: 30px;
+        border: 1px solid #00ff00;
+        background-color: #000000;
+        padding: 5px;
+        font-size: 10px;
+        color: #00ff00;
+        text-align: center;
+    }
+
+    .counter-display {
+        border: 2px inset #808080;
+        background: black;
+        color: red;
+        font-family: "Courier New", monospace;
+        font-size: 14px;
+        margin-top: 5px;
+        letter-spacing: 3px;
+        padding: 2px;
+    }
+</style>
