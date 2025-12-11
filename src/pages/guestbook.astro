@@ -29,7 +29,7 @@ const data = [
     {
         name: "LinkedIn",
         icon: "fab fa-linkedin fa-2x",
-        link: "",
+        link: "https://www.linkedin.com/in/stephangriesel/",
         status: "disabled",
     },
     {
@@ -181,9 +181,9 @@ const pageTitle = "Sign My Guestbook";
             .guestbook-form textarea {
                 width: 100%;
                 padding: 5px;
-                background-color: #000;
+                background-color: #000 !important;
                 border: 1px solid #808080;
-                color: #fff;
+                color: #fff !important;
                 font-family: Verdana, sans-serif;
             }
             button {
@@ -261,116 +261,129 @@ const pageTitle = "Sign My Guestbook";
                 <p>Please leave a message! I love hearing from visitors.</p>
 
                 <div class="guestbook-form">
-                    <form
-                        name="guestbook"
-                        method="POST"
-                        data-netlify="true"
-                        id="gbForm"
-                    >
-                        <input
-                            type="hidden"
-                            name="form-name"
-                            value="guestbook"
-                        />
+                    <form id="sheetdb-form">
                         <div class="form-group">
                             <label for="name">Name:</label>
-                            <input type="text" id="name" name="name" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="email"
-                                >Email (will not be published):</label
-                            >
-                            <input type="email" id="email" name="email" />
+                            <input
+                                type="text"
+                                id="name"
+                                name="data[name]"
+                                placeholder="Your Name"
+                                required
+                            />
                         </div>
                         <div class="form-group">
                             <label for="message">Message:</label>
                             <textarea
                                 id="message"
-                                name="message"
+                                name="data[message]"
                                 rows="4"
+                                placeholder="Write a note..."
                                 required></textarea>
                         </div>
-                        <button type="submit">Sign Guestbook</button>
+                        <input
+                            type="hidden"
+                            name="data[date]"
+                            id="date-field"
+                        />
+                        <button type="submit" id="submit-btn">Post Entry</button
+                        >
                     </form>
                 </div>
 
                 <h2>Previous Signatures</h2>
-                <div id="entries">
-                    <div class="entry">
-                        <div class="entry-header">
-                            <b>WebMaster99</b> wrote on Dec 01, 2025:
-                        </div>
-                        <div class="entry-body">
-                            Cool site! Love the dark mode. Reminds me of the
-                            good old days.
-                        </div>
-                    </div>
-                    <div class="entry">
-                        <div class="entry-header">
-                            <b>Guest</b> wrote on Nov 28, 2025:
-                        </div>
-                        <div class="entry-body">
-                            Under construction? Can't wait to see more!
-                        </div>
-                    </div>
+                <div id="entries-container">
+                    <p class="loading">Loading entries...</p>
                 </div>
 
                 <script is:inline>
-                    document
-                        .getElementById("gbForm")
-                        .addEventListener("submit", function (e) {
-                            e.preventDefault();
+                    const API_URL = "https://sheetdb.io/api/v1/l77h4w5jhegwy";
+                    const form = document.getElementById("sheetdb-form");
+                    const container =
+                        document.getElementById("entries-container");
+                    const submitBtn = document.getElementById("submit-btn");
 
-                            const name = document.getElementById("name").value;
-                            const message =
-                                document.getElementById("message").value;
-                            const date = new Date().toLocaleDateString(
-                                "en-US",
-                                {
-                                    month: "short",
-                                    day: "2-digit",
-                                    year: "numeric",
-                                },
-                            );
+                    // 1. Function to Load Entries
+                    async function loadEntries() {
+                        try {
+                            const response = await fetch(API_URL);
+                            const data = await response.json();
 
-                            const formData = new FormData(this);
-                            // Ensure form-name is included for Netlify
-                            formData.append("form-name", "guestbook");
+                            // Clear the "Loading..." text
+                            container.innerHTML = "";
 
-                            fetch("/", {
+                            // Reverse the array so newest shows first
+                            data.reverse().forEach((entry) => {
+                                // Only show entry if it has a message
+                                if (!entry.message) return;
+
+                                const div = document.createElement("div");
+                                div.className = "entry";
+                                div.innerHTML = `
+                        <div class="entry-header">
+                            <b>${escapeHtml(entry.name)}</b> wrote on ${entry.date || "Just now"}:
+                        </div>
+                        <div class="entry-body">${escapeHtml(entry.message)}</div>
+                    `;
+                                container.appendChild(div);
+                            });
+                        } catch (error) {
+                            console.error("Error loading entries:", error);
+                            container.innerHTML =
+                                "<p>Failed to load guestbook.</p>";
+                        }
+                    }
+
+                    // 2. Handle Form Submission
+                    form.addEventListener("submit", async (e) => {
+                        e.preventDefault();
+
+                        // Set button to loading state
+                        submitBtn.textContent = "Posting...";
+                        submitBtn.disabled = true;
+
+                        // Add current date to the hidden date field
+                        const now = new Date();
+                        document.getElementById("date-field").value =
+                            now.toLocaleDateString("en-US", {
+                                month: "short",
+                                day: "2-digit",
+                                year: "numeric",
+                            });
+
+                        const formData = new FormData(form);
+
+                        try {
+                            await fetch(API_URL, {
                                 method: "POST",
-                                headers: {
-                                    "Content-Type":
-                                        "application/x-www-form-urlencoded",
-                                },
-                                body: new URLSearchParams(formData).toString(),
-                            })
-                                .then(() => {
-                                    const entryHtml = `
-                              <div class="entry" style="border: 2px solid #00ff00;">
-                                <div class="entry-header">
-                                  <b>${name}</b> wrote on ${date}:
-                                </div>
-                                <div class="entry-body">
-                                  ${message}
-                                </div>
-                              </div>
-                            `;
+                                body: formData,
+                            });
 
-                                    const entriesDiv =
-                                        document.getElementById("entries");
-                                    entriesDiv.innerHTML =
-                                        entryHtml + entriesDiv.innerHTML;
+                            // Reset form and reload entries
+                            form.reset();
+                            submitBtn.textContent = "Post Entry";
+                            submitBtn.disabled = false;
+                            loadEntries(); // Refresh the list immediately
+                        } catch (error) {
+                            alert("Error posting message. Please try again.");
+                            submitBtn.textContent = "Post Entry";
+                            submitBtn.disabled = false;
+                        }
+                    });
 
-                                    alert("Thanks for signing my guestbook!");
-                                    this.reset();
-                                })
-                                .catch((error) =>
-                                    alert(
-                                        "Oops! Something went wrong: " + error,
-                                    ),
-                                );
-                        });
+                    // 3. Security Helper (Prevents HTML injection attacks)
+                    function escapeHtml(text) {
+                        if (!text) return "";
+                        return text
+                            .replace(/&/g, "&amp;")
+                            .replace(/</g, "&lt;")
+                            .replace(/>/g, "&gt;")
+                            .replace(/"/g, "&quot;")
+                            .replace(/'/g, "&#039;");
+                    }
+
+                    // Load entries when page opens
+                    loadEntries();
                 </script>
 
                 <center>
