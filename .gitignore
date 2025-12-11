@@ -25,3 +25,6 @@ src/pages/data/*
 
 # Netlify
 .netlify/
+
+# Content
+content/
