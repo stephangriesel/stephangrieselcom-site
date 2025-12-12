@@ -3,6 +3,7 @@ import Hero from "../components/Hero.astro";
 import SocialLinks from "../components/SocialLinks.astro";
 import Title from "../components/Title.astro";
 import VisitorCounter from "../components/VisitorCounter.astro";
+import "../styles/global.css";
 
 // HERO DATA
 const heroData = {
@@ -28,7 +29,7 @@ const data = [
     },
     {
         name: "LinkedIn",
-        icon: "fab fa-linkedin fa-2x",
+        icon: "fab fa-linkedin",
         link: "https://www.linkedin.com/in/stephangriesel/",
         status: "disabled",
     },
@@ -40,7 +41,7 @@ const data = [
     },
     {
         name: "GitHub",
-        icon: "fab fa-github fa-2x",
+        icon: "fab fa-github",
         link: "https://github.com/stephangriesel",
         status: "disabled",
     },
@@ -111,17 +112,7 @@ const pageTitle = "Sign My Guestbook";
                 margin-top: 20px;
             }
 
-            a {
-                color: #00ffff; /* Cyan */
-                text-decoration: underline;
-            }
-            a:visited {
-                color: #ff00ff; /* Magenta */
-            }
-            a:hover {
-                color: #ffffff;
-                background-color: #0000ff;
-            }
+            /* Links handled by global.css */
 
             .nav-header {
                 font-weight: bold;
@@ -186,19 +177,7 @@ const pageTitle = "Sign My Guestbook";
                 color: #fff !important;
                 font-family: Verdana, sans-serif;
             }
-            button {
-                background-color: #000;
-                color: #00ff00;
-                border: 1px solid #00ff00;
-                padding: 5px 15px;
-                cursor: pointer;
-                font-family: "Courier New", Courier, monospace;
-                font-weight: bold;
-            }
-            button:hover {
-                background-color: #00ff00;
-                color: #000;
-            }
+            /* Buttons handled by global.css */
             .entry {
                 border: 1px solid #808080;
                 padding: 10px;
@@ -226,19 +205,23 @@ const pageTitle = "Sign My Guestbook";
                 </div>
 
                 <div class="nav-header">Navigation</div>
-                <ul class="nav-list">
-                    <li><a href="/">Home</a></li>
-                    <!-- <li><a href="#">About Me</a></li> -->
-                    <!-- <li><a href="#">My Photos</a></li> -->
-                    <!-- <li><a href="#">Links</a></li> -->
-                    <li><a href="/guestbook">Guestbook</a></li>
-                    <li>
-                        <a href="mailto:hello@stephangriesel.com">Email Me</a>
-                    </li>
-                </ul>
+                <div
+                    class="nav-list"
+                    style="display: flex; flex-direction: column; gap: 5px; padding-left: 0;"
+                >
+                    <a href="/" class="win95-btn" style="width: 100%;">Home</a>
+                    <a href="/guestbook" class="win95-btn" style="width: 100%;"
+                        >Guestbook</a
+                    >
+                    <a
+                        href="mailto:hello@stephangriesel.com"
+                        class="win95-btn"
+                        style="width: 100%;">Email Me</a
+                    >
+                </div>
 
                 <div class="nav-header">Connect</div>
-                <div class="text-left pl-2">
+                <div style="padding-left: 0;">
                     {
                         data.map((i: (typeof data)[0]) => (
                             <SocialLinks data={i} />
@@ -286,7 +269,8 @@ const pageTitle = "Sign My Guestbook";
                             name="data[date]"
                             id="date-field"
                         />
-                        <button type="submit" id="submit-btn">Post Entry</button
+                        <button type="submit" id="submit-btn" class="win95-btn"
+                            >Post Entry</button
                         >
                     </form>
                 </div>

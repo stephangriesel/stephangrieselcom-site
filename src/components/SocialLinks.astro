@@ -11,18 +11,25 @@ type Props = {
 const { data } = Astro.props;
 ---
 
-<ul>
-  <li style="margin-bottom: 5px; list-style-type: square;">
-    <a href={data.link} style="color: #00ffff; text-decoration: underline;">
-      {data.icon && <i class={data.icon} style="margin-right: 5px;" />}
-      {data.name}
-    </a>
-    {
-      data.name === "Stephan Griesel" && (
-        <span class="blink" style="font-size: 10px;">
-          NEW!
-        </span>
-      )
-    }
-  </li>
-</ul>
+<a
+  href={data.link}
+  class="win95-btn"
+  style="width: 100%; margin-bottom: 5px; text-align: left;"
+>
+  {
+    data.icon && (
+      <i
+        class={data.icon}
+        style="margin-right: 5px; width: 20px; text-align: center; font-size: 14px;"
+      />
+    )
+  }
+  {data.name}
+  {
+    data.name === "Stephan Griesel" && (
+      <span class="blink" style="font-size: 10px; float: right;">
+        NEW!
+      </span>
+    )
+  }
+</a>

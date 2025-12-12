@@ -1,0 +1,384 @@
+---
+// MidiPlayer.astro
+---
+
+<div class="midi-player">
+    <div class="controls">
+        <button id="play-btn">▶ PLAY</button>
+        <button id="stop-btn">■ STOP</button>
+    </div>
+    <div class="status">
+        <marquee id="midi-status" scrollamount="4" scrolldelay="100"
+            >Megadeth - Tornado of Souls</marquee
+        >
+    </div>
+</div>
+
+<script>
+    // Load scripts
+    const loadScript = (src: string) => {
+        return new Promise((resolve, reject) => {
+            const script = document.createElement("script");
+            script.src = src;
+            script.onload = resolve;
+            script.onerror = (e) => reject(new Error(`Failed to load ${src}`));
+            document.head.appendChild(script);
+        });
+    };
+
+    const updateStatus = (msg: string) => {
+        const el = document.getElementById("midi-status");
+        if (el) el.innerText = msg;
+        console.log("[MidiPlayer]", msg);
+    };
+
+    // General MIDI Instrument Names (FluidR3_GM)
+    const instrumentNames = [
+        "acoustic_grand_piano",
+        "bright_acoustic_piano",
+        "electric_grand_piano",
+        "honkytonk_piano",
+        "electric_piano_1",
+        "electric_piano_2",
+        "harpsichord",
+        "clavinet",
+        "celesta",
+        "glockenspiel",
+        "music_box",
+        "vibraphone",
+        "marimba",
+        "xylophone",
+        "tubular_bells",
+        "dulcimer",
+        "drawbar_organ",
+        "percussive_organ",
+        "rock_organ",
+        "church_organ",
+        "reed_organ",
+        "accordion",
+        "harmonica",
+        "tango_accordion",
+        "acoustic_guitar_nylon",
+        "acoustic_guitar_steel",
+        "electric_guitar_jazz",
+        "electric_guitar_clean",
+        "electric_guitar_muted",
+        "overdriven_guitar",
+        "distortion_guitar",
+        "guitar_harmonics",
+        "acoustic_bass",
+        "electric_bass_finger",
+        "electric_bass_pick",
+        "fretless_bass",
+        "slap_bass_1",
+        "slap_bass_2",
+        "synth_bass_1",
+        "synth_bass_2",
+        "violin",
+        "viola",
+        "cello",
+        "contrabass",
+        "tremolo_strings",
+        "pizzicato_strings",
+        "orchestral_harp",
+        "timpani",
+        "string_ensemble_1",
+        "string_ensemble_2",
+        "synth_strings_1",
+        "synth_strings_2",
+        "choir_aahs",
+        "voice_oohs",
+        "synth_choir",
+        "orchestra_hit",
+        "trumpet",
+        "trombone",
+        "tuba",
+        "muted_trumpet",
+        "french_horn",
+        "brass_section",
+        "synth_brass_1",
+        "synth_brass_2",
+        "soprano_sax",
+        "alto_sax",
+        "tenor_sax",
+        "baritone_sax",
+        "oboe",
+        "english_horn",
+        "bassoon",
+        "clarinet",
+        "piccolo",
+        "flute",
+        "recorder",
+        "pan_flute",
+        "blown_bottle",
+        "shakuhachi",
+        "whistle",
+        "ocarina",
+        "lead_1_square",
+        "lead_2_sawtooth",
+        "lead_3_calliope",
+        "lead_4_chiff",
+        "lead_5_charang",
+        "lead_6_voice",
+        "lead_7_fifths",
+        "lead_8_bass__lead",
+        "pad_1_new_age",
+        "pad_2_warm",
+        "pad_3_polysynth",
+        "pad_4_choir",
+        "pad_5_bowed",
+        "pad_6_metallic",
+        "pad_7_halo",
+        "pad_8_sweep",
+        "fx_1_rain",
+        "fx_2_soundtrack",
+        "fx_3_crystal",
+        "fx_4_atmosphere",
+        "fx_5_brightness",
+        "fx_6_goblins",
+        "fx_7_echoes",
+        "fx_8_scifi",
+        "sitar",
+        "banjo",
+        "shamisen",
+        "koto",
+        "kalimba",
+        "bagpipe",
+        "fiddle",
+        "shanai",
+        "tinkle_bell",
+        "agogo",
+        "steel_drums",
+        "woodblock",
+        "taiko_drum",
+        "melodic_tom",
+        "synth_drum",
+        "reverse_cymbal",
+        "guitar_fret_noise",
+        "breath_noise",
+        "seashore",
+        "bird_tweet",
+        "telephone_ring",
+        "helicopter",
+        "applause",
+        "gunshot",
+    ];
+
+    updateStatus("Loading scripts...");
+
+    Promise.all([
+        loadScript(
+            "https://cdn.jsdelivr.net/npm/midi-player-js@2.0.16/browser/midiplayer.js",
+        ),
+        loadScript(
+            "https://cdn.jsdelivr.net/npm/soundfont-player@0.12.0/dist/soundfont-player.min.js",
+        ),
+    ])
+        .then(() => {
+            updateStatus("Megadeth - Tornado of Souls");
+
+            // @ts-ignore
+            const MidiPlayer = window.MidiPlayer;
+            // @ts-ignore
+            const Soundfont = window.Soundfont;
+            const AudioContext =
+                window.AudioContext || (window as any).webkitAudioContext;
+            const ac = new AudioContext();
+
+            let player: any = null;
+            // Map of Program Number (0-127) -> Soundfont Instrument Object
+            const loadedInstruments = new Map();
+            // Map of Channel (1-16) -> Current Program Number
+            const channelPrograms = new Map();
+
+            // Map of Channel + Note -> AudioNode (to stop it)
+            const activeNotes = new Map();
+
+            // Initialize player
+            player = new MidiPlayer.Player((event: any) => {
+                // Handle Program Change (Instrument Change)
+                if (event.name === "Program Change") {
+                    channelPrograms.set(event.channel, event.value);
+                }
+
+                // Handle Note On
+                if (event.name === "Note on" && event.velocity > 0) {
+                    // Filter out Channel 10 (Drums)
+                    if (event.channel === 10) return;
+
+                    const program = channelPrograms.get(event.channel) || 0;
+                    const instrument = loadedInstruments.get(program);
+
+                    if (instrument) {
+                        const noteId = `${event.channel}-${event.noteName}`;
+                        // Stop existing note if any (monophonic per channel/note)
+                        if (activeNotes.has(noteId)) {
+                            activeNotes.get(noteId).stop();
+                        }
+
+                        const audioNode = instrument.play(
+                            event.noteName,
+                            ac.currentTime,
+                            {
+                                gain: event.velocity / 100,
+                                release: 0.2, // Add a small release for "ringing"
+                            },
+                        );
+                        activeNotes.set(noteId, audioNode);
+                    }
+                }
+
+                // Handle Note Off (or Note On with velocity 0)
+                if (
+                    event.name === "Note off" ||
+                    (event.name === "Note on" && event.velocity === 0)
+                ) {
+                    const noteId = `${event.channel}-${event.noteName}`;
+                    if (activeNotes.has(noteId)) {
+                        activeNotes.get(noteId).stop();
+                        activeNotes.delete(noteId);
+                    }
+                }
+            });
+
+            const loadRequiredInstruments = async (programs: number[]) => {
+                const uniquePrograms = [...new Set(programs)];
+                updateStatus(`Loading ${uniquePrograms.length} instruments...`);
+
+                const promises = uniquePrograms.map(async (program) => {
+                    if (loadedInstruments.has(program)) return; // Already loaded
+
+                    const instrumentName = instrumentNames[program];
+                    if (!instrumentName) {
+                        console.warn(
+                            `No instrument name for program ${program}`,
+                        );
+                        return;
+                    }
+
+                    try {
+                        const inst = await Soundfont.instrument(
+                            ac,
+                            instrumentName,
+                        );
+                        loadedInstruments.set(program, inst);
+                        console.log(
+                            `Loaded ${instrumentName} (Program ${program})`,
+                        );
+                    } catch (e) {
+                        console.error(`Failed to load ${instrumentName}`, e);
+                    }
+                });
+
+                await Promise.all(promises);
+                updateStatus("Megadeth - Tornado of Souls");
+            };
+
+            // Function to load and play
+            const loadAndPlay = async () => {
+                try {
+                    updateStatus("Loading music.mid...");
+                    // Resume AudioContext if suspended (browser policy)
+                    if (ac.state === "suspended") {
+                        await ac.resume();
+                    }
+
+                    const response = await fetch("/music.mid");
+                    if (!response.ok)
+                        throw new Error(
+                            `HTTP ${response.status} fetching MIDI`,
+                        );
+                    const arrayBuffer = await response.arrayBuffer();
+
+                    // Load into player to parse events
+                    player.loadArrayBuffer(arrayBuffer);
+
+                    // Scan for used instruments
+                    const usedPrograms: number[] = [0]; // Always load Piano as fallback
+                    player.tracks.forEach((track: any) => {
+                        track.events.forEach((event: any) => {
+                            if (event.name === "Program Change") {
+                                usedPrograms.push(event.value);
+                            }
+                        });
+                    });
+
+                    // Load them
+                    await loadRequiredInstruments(usedPrograms);
+
+                    // Start playing
+                    player.play();
+                    updateStatus("Megadeth - Tornado of Souls");
+                } catch (e: any) {
+                    console.error(e);
+                    updateStatus("Error: " + e.message);
+                }
+            };
+
+            const playBtn = document.getElementById("play-btn");
+            const stopBtn = document.getElementById("stop-btn");
+
+            playBtn?.addEventListener("click", () => {
+                if (!player) return;
+
+                if (player.isPlaying()) {
+                    player.pause();
+                    updateStatus("Paused");
+                    playBtn.innerText = "▶ PLAY";
+                } else {
+                    if (player.tracks.length === 0) {
+                        loadAndPlay();
+                        playBtn.innerText = "|| PAUSE";
+                    } else {
+                        // Resume AudioContext if suspended
+                        if (ac.state === "suspended") {
+                            ac.resume();
+                        }
+                        player.play();
+                        updateStatus("Megadeth - Tornado of Souls");
+                        playBtn.innerText = "|| PAUSE";
+                    }
+                }
+            });
+
+            stopBtn?.addEventListener("click", () => {
+                if (!player) return;
+                player.stop();
+                updateStatus("Megadeth - Tornado of Souls");
+                if (playBtn) playBtn.innerText = "▶ PLAY";
+            });
+        })
+        .catch((err) => {
+            console.error(err);
+            updateStatus("Script Load Error: " + err.message);
+        });
+</script>
+
+<style>
+    .midi-player {
+        border: 2px outset #ccc;
+        background: #c0c0c0;
+        padding: 5px;
+        width: 100%;
+        margin-top: 20px;
+        font-family: "Courier New", monospace;
+        text-align: center;
+    }
+
+    .controls {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+        margin-bottom: 5px;
+    }
+
+    /* Buttons handled by global.css */
+
+    .status {
+        background: #000;
+        color: #0f0;
+        border: 2px inset #808080;
+        font-size: 10px;
+        padding: 2px;
+    }
+</style>

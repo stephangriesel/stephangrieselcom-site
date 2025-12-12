@@ -3,6 +3,8 @@ import Hero from "../components/Hero.astro";
 import SocialLinks from "../components/SocialLinks.astro";
 import Title from "../components/Title.astro";
 import VisitorCounter from "../components/VisitorCounter.astro";
+import MidiPlayer from "../components/MidiPlayer.astro";
+import "../styles/global.css";
 
 // FAKE DATA FOR TESTING
 // HERO DATA
@@ -29,7 +31,7 @@ const data = [
   },
   {
     name: "LinkedIn",
-    icon: "fab fa-linkedin fa-2x",
+    icon: "fab fa-linkedin",
     link: "https://www.linkedin.com/in/stephangriesel/",
     status: "disabled",
   },
@@ -41,7 +43,7 @@ const data = [
   },
   {
     name: "GitHub",
-    icon: "fab fa-github fa-2x",
+    icon: "fab fa-github",
     link: "https://github.com/stephangriesel",
     status: "disabled",
   },
@@ -112,17 +114,7 @@ const pageTitle = heroData.name;
         margin-top: 20px;
       }
 
-      a {
-        color: #00ffff; /* Cyan */
-        text-decoration: underline;
-      }
-      a:visited {
-        color: #ff00ff; /* Magenta */
-      }
-      a:hover {
-        color: #ffffff;
-        background-color: #0000ff;
-      }
+      /* Links handled by global.css */
 
       .nav-header {
         font-weight: bold;
@@ -202,21 +194,28 @@ const pageTitle = heroData.name;
         </div>
 
         <div class="nav-header">Navigation</div>
-        <ul class="nav-list">
-          <li><a href="#">Home</a></li>
-          <!-- <li><a href="#">About Me</a></li> -->
-          <!-- <li><a href="#">My Photos</a></li> -->
-          <!-- <li><a href="#">Links</a></li> -->
-          <li><a href="/guestbook">Guestbook</a></li>
-          <li><a href="mailto:hello@stephangriesel.com">Email Me</a></li>
-        </ul>
+        <div
+          class="nav-list"
+          style="display: flex; flex-direction: column; gap: 5px; padding-left: 0;"
+        >
+          <a href="#" class="win95-btn" style="width: 100%;">Home</a>
+          <a href="/guestbook" class="win95-btn" style="width: 100%;"
+            >Guestbook</a
+          >
+          <a
+            href="mailto:hello@stephangriesel.com"
+            class="win95-btn"
+            style="width: 100%;">Email Me</a
+          >
+        </div>
 
         <div class="nav-header">Connect</div>
-        <div class="text-left pl-2">
+        <div style="padding-left: 0;">
           {data.map((i: (typeof data)[0]) => <SocialLinks data={i} />)}
         </div>
 
         <VisitorCounter />
+        <MidiPlayer />
 
         <br />
         <img
@@ -242,11 +241,27 @@ const pageTitle = heroData.name;
           Thanks for stopping by!
         </p>
 
+        <center>
+          <img
+            src="/uc.png"
+            alt="Under Construction"
+            style="width: 50%; margin-bottom: 20px;"
+          />
+        </center>
+
         <h2>What's New</h2>
         <table class="updates-table">
           <tr>
             <th style="width: 80px;">Date</th>
             <th>Update</th>
+          </tr>
+          <tr>
+            <td>Dec 12</td>
+            <td>
+              Upgraded the <b>MIDI Player</b> with multi-instrument support and a
+              scrolling song title! Also applied a <b>Windows 95/98 UI</b> overhaul
+              with beveled buttons and standard link colors.
+            </td>
           </tr>
           <tr>
             <td>Dec 11</td>
@@ -284,21 +299,13 @@ const pageTitle = heroData.name;
 
         <center>
           <div class="flex justify-center gap-2 mb-4">
-            <div
-              style="width: 88px; height: 31px; background: #000080; color: white; border: 1px solid white; display: flex; align-items: center; justify-content: center; font-size: 10px;"
-            >
+            <div class="win95-btn" style="background: #000080; color: white;">
               NETSCAPE<br />NOW!
             </div>
-            <div
-              style="width: 88px; height: 31px; background: #000; color: white; border: 1px solid white; display: flex; align-items: center; justify-content: center; font-size: 10px;"
-            >
+            <div class="win95-btn" style="background: #000; color: white;">
               IE 5.0
             </div>
-            <div
-              style="width: 88px; height: 31px; background: #808080; color: black; border: 1px solid white; display: flex; align-items: center; justify-content: center; font-size: 10px;"
-            >
-              NOTEPAD
-            </div>
+            <div class="win95-btn">NOTEPAD</div>
           </div>
 
           <div style="font-size: 10px; color: #666;">

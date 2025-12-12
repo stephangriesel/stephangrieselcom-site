@@ -1,0 +1,89 @@
+/* Windows 95/98 Global Styles */
+
+/* Standard Link Colors */
+a {
+  color: #0000ff;
+  /* Bright Blue */
+  text-decoration: underline;
+}
+
+a:visited {
+  color: #800080;
+  /* Purple */
+}
+
+a:active {
+  color: #ff0000;
+  /* Red */
+}
+
+a:hover {
+  color: #ffffff;
+  background-color: #0000ff;
+}
+
+/* Beveled Buttons */
+button,
+.win95-btn {
+  background: #c0c0c0;
+  color: #000000;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-right: 2px solid #000000;
+  border-bottom: 2px solid #000000;
+  padding: 5px 15px;
+  cursor: pointer;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+  font-size: 12px;
+  text-align: center;
+  display: inline-block;
+  text-decoration: none;
+  /* Ensure links don't have underlines */
+  box-sizing: border-box;
+  /* Ensure padding doesn't affect width */
+}
+
+button:active,
+.win95-btn:active {
+  border-top: 2px solid #000000;
+  border-left: 2px solid #000000;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+}
+
+/* Ensure visited buttons stay black */
+a.win95-btn:visited {
+  color: #000000;
+}
+
+/* Hover effect: White text on Dark Blue background */
+button:hover,
+.win95-btn:hover {
+  color: #ffffff !important;
+  background-color: #000080;
+}
+
+/* Scrollbar (Webkit) - Optional for that extra retro feel */
+::-webkit-scrollbar {
+  width: 16px;
+  background: #c0c0c0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-right: 2px solid #000000;
+  border-bottom: 2px solid #000000;
+}
+
+::-webkit-scrollbar-button {
+  background: #c0c0c0;
+  width: 16px;
+  height: 16px;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-right: 2px solid #000000;
+  border-bottom: 2px solid #000000;
+}
