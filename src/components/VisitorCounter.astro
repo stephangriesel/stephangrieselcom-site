@@ -11,13 +11,14 @@
 <script>
     const counterElement = document.getElementById("counter");
     if (counterElement) {
-        // Using stephangriesel.com as the namespace and 'visits' as the key
-        // The 'up' endpoint increments the counter
-        fetch("https://api.counterapi.dev/v1/stephangriesel.com/visits/up")
+        // counterapi.dev v1 was shut down (v2 needs an API key), so this uses
+        // abacus.jasoncameron.dev: namespace "stephangriesel.com", key "visits".
+        // The 'hit' endpoint increments the counter and returns { value }
+        fetch("https://abacus.jasoncameron.dev/hit/stephangriesel.com/visits")
             .then((response) => response.json())
             .then((data) => {
                 // Pad the number with leading zeros to 6 digits
-                const count = data.count.toString().padStart(6, "0");
+                const count = data.value.toString().padStart(6, "0");
                 counterElement.innerText = count;
             })
             .catch((error) => {
